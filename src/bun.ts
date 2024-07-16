@@ -103,7 +103,7 @@ export class BunNetworkRemoteServer {
 
     try {
       const response = await this.bunNetwork.onRequest(payload.data.type, requestBody)
-      return convertArrayBufferToArray(response)
+      return { response: convertArrayBufferToArray(response) }
     } catch(e) {
       if (e instanceof SessionJsError) {
         return { error: { instance: e.name, code: e.code, message: e.message } }
