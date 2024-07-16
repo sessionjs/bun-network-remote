@@ -1,0 +1,34 @@
+{
+  "name": "@session.js/bun-network-remote",
+  "version": "1.0.0",
+  "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sessionjs/bun-network-remote.git"
+  },
+  "main": "dist/bun.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "browser": "dist/browser.js",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/sessionjs/bun-network-remote/issues"
+  },
+  "description": "Bun.sh network connector wrapping arouund @session.js/bun-network",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "homepage": "https://github.com/sessionjs/bun-network-remote#readme",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && cp src/index.d.ts dist/index.d.ts"
+  },
+  "dependencies": {
+    "@session.js/bun-network": "^1.0.1",
+    "@session.js/errors": "1.0.7",
+    "@session.js/types": "^1.0.4",
+    "zod": "^3.23.8"
+  }
+}
