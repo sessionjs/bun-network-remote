@@ -6,13 +6,20 @@ import { z } from 'zod'
 
 const swarmSchema = z.object({
   ip: z.string().ip(),
-  port: z.number().int().positive(),
-  pubkey_ed25519: z.string().optional(),
-  pubkey_x25519: z.string().optional(),
+  port: z.coerce.number().int().positive(),
+  pubkey_ed25519: z.string(),
+  pubkey_x25519: z.string(),
+})
+
+const snodeSchema = z.object({
+  public_ip: z.string().ip(),
+  storage_port: z.number().int().positive(),
+  pubkey_x25519: z.string(),
+  pubkey_ed25519: z.string()
 })
 
 const requestNamespace = z.object({
-  namespace: z.number().int().positive().or(z.string()),
+  namespace: z.number().int().or(z.literal('all')),
   pubkey: z.string(),
   isOurPubkey: z.boolean(),
   lastHash: z.string().optional(),
@@ -33,20 +40,15 @@ const bodySchemas: {
     namespaces: z.array(requestNamespace)
   }),
   [RequestType.Store]: z.object({
-    destination: z.string(),
     data64: z.string(),
+    destination: z.string(),
     ttl: z.number().int().positive(),
     timestamp: z.number().int().positive(),
-    namespace: z.number().int().positive(),
+    namespace: z.number().int(),
     swarm: swarmSchema
   }),
   [RequestType.GetSwarms]: z.object({
-    snode: z.object({
-      ip: z.string().ip(),
-      port: z.number().int().positive(),
-      pubkey_ed25519: z.string().optional(),
-      pubkey_x25519: z.string().optional(),
-    }),
+    snode: snodeSchema,
     pubkey: z.string()
   }),
   [RequestType.UploadAttachment]: z.object({
@@ -84,7 +86,7 @@ export class BunNetworkRemoteServer {
     const payload = await z.object({
       type: z.nativeEnum(RequestType),
       body: z.any()
-    }).strict().safeParseAsync(body)
+    }).safeParseAsync(body)
     if (!payload.success) {
       throw new SessionValidationError({ code: SessionValidationErrorCode.Generic, message: 'Payload is invalid or method unsupported' })
     }
