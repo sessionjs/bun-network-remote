@@ -53,6 +53,9 @@ const bodySchemas: {
   }),
   [RequestType.UploadAttachment]: z.object({
     data: Uint8ArraySchema
+  }),
+  [RequestType.DownloadAttachment]: z.object({
+    id: z.string().regex(/^\d+$/).max(64)
   })
 }
 
@@ -105,7 +108,11 @@ export class BunNetworkRemoteServer {
 
     try {
       const response = await this.bunNetwork.onRequest(payload.data.type, requestBody)
-      return { response: convertArrayBufferToArray(response) }
+      if (response instanceof ArrayBuffer) {
+        return response
+      } else {
+        return { response: convertArrayBufferToArray(response) }
+      }
     } catch(e) {
       if (e instanceof SessionJsError) {
         return { error: { instance: e.name, code: e.code, message: e.message } }

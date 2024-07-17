@@ -6,7 +6,6 @@ import {
   SessionRuntimeError,
   SessionValidationError,
 } from '@session.js/errors'
-import type { SessionJsError } from '@session.js/errors/dist/session-js'
 
 const ThrowableErrors = {
   [SessionFetchError.name]: SessionFetchError,
@@ -48,17 +47,21 @@ export class BunNetworkRemoteClient implements Network {
       throw new SessionFetchError({ code: SessionFetchErrorCode.InvalidResponse, message: `Invalid response status: ${request.status}` })
     }
     try {
-      const response = await request.json() as { response: object } | { error: { instance: 'SessionFetchError', code: string, message: string } }
-      if ('error' in response) {
-        if(!(response.error.instance in ThrowableErrors)) {
-          throw new SessionFetchError({ code: SessionFetchErrorCode.InvalidResponse, message: `Invalid error in response: ${response.error}` })
+      if(request.headers.get('content-type') === 'application/json') {
+        const response = await request.json() as { response: object } | { error: { instance: 'SessionFetchError', code: string, message: string } }
+        if ('error' in response) {
+          if(!(response.error.instance in ThrowableErrors)) {
+            throw new SessionFetchError({ code: SessionFetchErrorCode.InvalidResponse, message: `Invalid error in response: ${response.error}` })
+          } else {
+            const ThrownError = ThrowableErrors[response.error.instance]
+            // @ts-ignore
+            throw new ThrownError({ code: response.error.code, message: response.error.message })
+          }
         } else {
-          const ThrownError = ThrowableErrors[response.error.instance]
-          // @ts-ignore
-          throw new ThrownError({ code: response.error.code, message: response.error.message })
+          return response.response
         }
       } else {
-        return response.response
+        return await request.arrayBuffer()
       }
     } catch(e) {
       throw new SessionFetchError({ code: SessionFetchErrorCode.InvalidResponse, message: `Invalid response body: ${e}` })
