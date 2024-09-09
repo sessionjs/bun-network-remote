@@ -1,6 +1,6 @@
 {
   "name": "@session.js/bun-network-remote",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
   "repository": {
     "type": "git",
