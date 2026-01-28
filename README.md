@@ -2,7 +2,7 @@
 
 This network adapter for @session.js/client uses Bun.sh runtime to fetch Session nodes. It is intended to be used in environments that should keep secret keys but can't connect to Session nodes, such as browsers. This network connector fetches serverside part of this package that validates request and passes it to onRequest method from @session.js/bun-network.
 
-[Simple example of project that uses @session.js/bun-network-remote](https://github.com/sessionjs/examples/tree/main/browser-simple)
+[Simple example of project that uses @session.js/bun-network-remote](https://git.hloth.dev/session.js/examples/tree/main/browser-simple)
 
 Usage:
 
@@ -40,10 +40,14 @@ new Elysia()
   .listen(12345)
 ```
 
-## Made for session.js
+## Made for Session.js
 
-Use Session messenger programmatically with [Session.js](https://github.com/sessionjs/client): Session bots, custom Session clients, and more.
+Use Session messenger programmatically with [Session.js](https://git.hloth.dev/session.js/client): Session bots, custom Session clients, and more.
 
 ## Donate
 
-[hloth.dev/donate](https://hloth.dev/donate)
+[hloth.dev/donate](https://hloth.dev/donate) · Tor: [hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate](http://hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate)
+
+## License
+
+[MIT](./LICENSE)
