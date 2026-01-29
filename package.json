@@ -1,6 +1,6 @@
 {
 	"name": "@session.js/bun-network-remote",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"description": "Bun.sh network connector wrapping arouund @session.js/bun-network",
 	"homepage": "https://git.hloth.dev/session.js/bun-network-remote#readme",
 	"bugs": {
@@ -27,9 +27,9 @@
 		"build": "rm -rf dist && tsc --project tsconfig.build.json && cp src/index.d.ts dist/index.d.ts"
 	},
 	"dependencies": {
-		"@session.js/bun-network": "^1.0.14",
+		"@session.js/bun-network": "^1.0.15",
 		"@session.js/errors": "^1.0.11",
-		"@session.js/types": "^1.0.14",
+		"@session.js/types": "^1.0.19",
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
